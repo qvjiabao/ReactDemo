@@ -71,7 +71,6 @@ export const Addition = styled.div`
 `
 
 export const Button = styled.div`
-    width:54px;
     text-align:center;
     float:right;
     margin-top:9px;
@@ -88,4 +87,20 @@ export const Button = styled.div`
         color:#fff;
         background:#ec6149;
     }
+`
+
+export const SearchWrapper = styled.div`
+    position:relative;
+    float:left;
+    .iconfont{
+        position:absolute;
+        right:5px;
+        bottom:5px;
+        width:30px;
+        height:30px;
+        border-radius:15px;
+        line-height:30px;
+        text-align:center;
+    }
+
 `
