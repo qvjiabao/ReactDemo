@@ -7,7 +7,7 @@ export const HeaderWrapper = styled.div`
     border-bottom: 1px solid #F0F0F0
 `
 export const Logo = styled.a.attrs({
-    href:'/'
+    href: '/'
 })`
     position:absolute;
     top:0;
@@ -45,21 +45,25 @@ export const NavItem = styled.div`
     }
 `
 export const NavSearch = styled.input.attrs({
-    placeholder:"搜索"
+    placeholder: "搜索"
 })`
     width:160px;
     height:38px;
-    padding:0 20px;
+    padding:0 30px 0 20px;
     margin-top:9px;
     margin-left:20px;
     box-sizing:border-box;
     border:none;
     outline:none;
+    color:#666;
     border-radius:19px;
     background-color:#eee;
     font-size:14px;
     &::placeholder{
         color:#999;
+    }
+    &.focused{
+        width:240px;
     }
 `
 
@@ -101,6 +105,8 @@ export const SearchWrapper = styled.div`
         border-radius:15px;
         line-height:30px;
         text-align:center;
+        &.focused{
+            background-color:RGB(150,150,150)
+        }
     }
-
 `
