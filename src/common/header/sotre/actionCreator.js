@@ -12,7 +12,8 @@ export const searchBlur = () => ({
 
 const changeList = (data) => ({
     type: actionTypes.CHANGE_LIST,
-    data: fromJS(data)
+    data: fromJS(data),
+    totalPage: Math.ceil(data.length / 10)
 })
 
 export const getList = () => {
@@ -25,3 +26,14 @@ export const getList = () => {
         });
     }
 };
+
+export const changeMouseEnter = () => ({
+    type: actionTypes.CHANGE_MOUSEENTER
+});
+export const changeMouseLeave = () => ({
+    type: actionTypes.CHANGE_MOUSELEAVE
+});
+export const changePage = (page) => ({
+    type: actionTypes.CHANGE_PAGE,
+    page
+});

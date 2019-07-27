@@ -19,22 +19,30 @@ import { actionCreator } from './sotre'
 class Header extends Component {
 
     getListArea = () => {
-        if (this.props.focused) {
+        const { focused, list, page, totalPage, mousein, handlerMouseEnter, handlerMouseLeave, handlerchangePage } = this.props;
+        const newList = list.toJS();
+        const pageList = [];
+        if (newList.length) {
+            for (let i = ((page - 1) * 10); i < page * 10; i++) {
+                if (newList[i])
+                    pageList.push(
+                        <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+                    );
+            }
+        }
+        if (focused || mousein) {
             return (
-                <SearchInfo>
+                <SearchInfo
+                    onMouseEnter={handlerMouseEnter}
+                    onMouseLeave={handlerMouseLeave}
+                >
                     <SearchInfoTitle>
                         热门搜索
-                    <SearchInfoSwitch>
-                        换一批
+                    <SearchInfoSwitch onClick={() => handlerchangePage(page, totalPage)}>
+                            <i className="iconfont spin">&#xe851;</i>换一批
                     </SearchInfoSwitch>
                     </SearchInfoTitle>
-                    <div>
-                        {
-                            this.props.list.map((item) => {
-                                return <SearchInfoItem key={item}>{item}</SearchInfoItem>
-                            })
-                        }
-                    </div>
+                    {pageList}
                 </SearchInfo>
             );
         }
@@ -51,10 +59,10 @@ class Header extends Component {
                     <SearchWrapper>
                         <NavSearch
                             className={this.props.focused ? "focused" : ""}
-                            onFocus={this.props.handlerInputFocus}
+                            onFocus={() => this.props.handlerInputFocus(this.props.list)}
                             onBlur={this.props.handlerInputBlur}
                         />
-                        <i className={this.props.focused ? "focused iconfont" : "iconfont"}
+                        <i className={this.props.focused ? "focused iconfont zoom" : "iconfont zoom"}
                             dangerouslySetInnerHTML={{ __html: this.props.focused ? "&#xe617;" : "&#xe63e;" }}>
                         </i>
                         {this.getListArea()}
@@ -72,19 +80,38 @@ class Header extends Component {
 const mapStateToProps = (state) => {
     return {
         focused: state.getIn(['header', 'focused']),
-        list: state.getIn(['header', 'list'])
+        list: state.getIn(['header', 'list']),
+        totalPage: state.getIn(['header', 'totalPage']),
+        page: state.getIn(['header', 'page']),
+        mousein: state.getIn(['header', 'mousein']),
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handlerInputFocus() {
-            dispatch(actionCreator.getList());
+        handlerInputFocus(list) {
+            if (list.size === 0)
+                dispatch(actionCreator.getList());
             dispatch(actionCreator.searchFocus());
         },
         handlerInputBlur() {
             dispatch(actionCreator.searchBlur());
+        },
+        handlerMouseEnter() {
+            dispatch(actionCreator.changeMouseEnter());
+        },
+        handlerMouseLeave() {
+            dispatch(actionCreator.changeMouseLeave());
+        },
+        handlerchangePage(page, totalPage) {
+            console.log(page, totalPage);
+            if (page < totalPage) {
+                dispatch(actionCreator.changePage(page + 1));
+            } else {
+                dispatch(actionCreator.changePage(1));
+            }
         }
+
     }
 }
 
