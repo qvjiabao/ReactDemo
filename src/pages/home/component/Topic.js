@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TopicWrapper, TopicItem } from '../style';
 import { connect } from 'react-redux';
+import { InitList } from '../store/actionCreator';
 
 class Topic extends Component {
     render() {
@@ -18,10 +19,20 @@ class Topic extends Component {
             </TopicWrapper>
         )
     }
+
+    componentDidMount() {
+        this.props.InitList();
+    }
 }
 
-const mapState = (state) => ({
-    list: state.get('home').get('topicList')
-});
+const mapState = (state) => ({ list: state.get('home').get('topicList') })
 
-export default connect(mapState, null)(Topic);
+const mapDispatch = (dispatch) => {
+    return {
+        InitList: () => {
+            dispatch(InitList());
+        }
+    }
+}
+
+export default connect(mapState, mapDispatch)(Topic);
