@@ -25,7 +25,7 @@ class Topic extends Component {
     }
 }
 
-const mapState = (state) => ({ list: state.get('home').get('topicList') })
+const mapState = (state) => ({ list: state.getIn(['home', 'topicList']) })
 
 const mapDispatch = (dispatch) => {
     return {
